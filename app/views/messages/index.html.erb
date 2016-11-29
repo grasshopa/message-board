@@ -17,10 +17,19 @@
 フォームで入力した値をモデルオブジェクトに割当てる-->
 <!--引数@messageにMessagesControllerのindexアクションでMessage.newの代入する-->
 <%= form_for (@message) do |f| %>
-	名前:
-	<%= f.text_field :name %>
+<div class="form-horizontal">
+	<div class="form-group">
+		<label class="col-sm-1 control-label">名前:</label>
+		<div class="col-sm-11"><%= f.text_field :name, :class => "form-control" %></div>
+	</div>
 	
-	内容:
-	<%= f.text_area :body :size => "20×50" %>
-	<%= f.submit class: "btn btn-sm btn-primary" %>
+	<div class="form-group">		
+		<label class="col-sm-1 control-label">内容:</label>
+		<div class="col-sm-11"><%= f.text_area :body, :class => "form-control" %></div>
+	</div>
+	
+	<div class="col-sm-12 center-block form-group">
+		<%= f.submit class: "btn btn-sm btn-primary col-sm-2 col-sm-offset-5" %>
+	</div>
+</div>
 <% end %>
