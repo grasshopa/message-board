@@ -12,8 +12,16 @@ class MessagesController < ApplicationController
     #パラメータを受取り、Messageインスタンスを生成(Message.new)、@messageに代入
     @message = Message.new(message_params)
     #メッセージモデルのインスタンスをデータベースに保存
-    @message.save
-    redirect_to root_path , notice: 'メッセージを保存しました'
+    if @message.save
+      #メッセージが保存できたとき
+      redirect_to root_path , notice: 'メッセージを保存しました。'
+    else
+      #メッセージが保存できなかったとき
+      #→Message.allでテンプレートに使用するインスタンス変数を渡す
+      @messages = Message.all
+      flash.now[:alert] = "メッセージの保存に失敗しました"
+      render 'index'
+    end
   end
   
   private
