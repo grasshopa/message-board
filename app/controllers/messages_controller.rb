@@ -1,4 +1,7 @@
 class MessagesController < ApplicationController
+  #（フィルタ機能）アクションの前後に任意の処理をできる→editアクション、updateアクションの前に処理できる
+  before_action :set_message, only: [:edit, :update, :destroy]
+  
   #メッセージを新規作成する際のフォームを表示するindexアクション
   def index
     #Messageモデルを初期化して@messageに代入→新規作成フォームが表示
@@ -24,9 +27,34 @@ class MessagesController < ApplicationController
     end
   end
   
+  def edit
+  end
+  
+  #エラーが※一番下ではエラー
+  def destroy
+    @message.destroy
+    redirect_to root_path, notice: 'メッセージを削除しました'
+  end
+  
+  def update
+    if @message.update(message_params)
+      #保存に成功した場合はトップページへリダイレクト
+      redirect_to root_path , notice: 'メッセージを編集しました'
+    else
+      #保存に失敗した場合は編集画面へ戻す
+      render 'edit'
+    end
+  end
+  
   private
   def message_params
     params.require(:message).permit(:name, :body)
   end
-  ##ここまで
+  
+  def set_message
+    #RESTという設計 → 求めるしリソースをURL内にあるid番号によって判断、要求されるリソースを特定できる設計
+    #※params=フォームから送信したパラメータをコントローラ側に受け取るハッシュだけではない
+    @message = Message.find(params[:id])
+  end
+  
 end
