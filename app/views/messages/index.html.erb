@@ -7,6 +7,7 @@
 		<!--インスタンス変数@messagesで★★★messageを繰り返す-->
 		<% @messages.each do |message| %>
 			<span class="label label-info"><%= message.name %></span> <!--名前-->
+			<%= message.age %><!--年齢-->
 			<%= message.body %> <!--内容-->
 			<!--link_toメソッド ※link_toの第1引数→ラベル 、edit〜→編集ページのパス-->
 			(<%= link_to "edit" , edit_message_path(message) %>
